@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<style>
+			body {
+				margin: auto;
+				padding: 10px;
+				background-color: #fff;
+				font-size: 14px;
+				font-family: Verdana;
+			}
+			.myDiv1 {
+				height: 300px;
+				width: 650px;
+				border: 1px solid black;
+				margin: 30px auto;
+				padding: 10px;
+				font-size: 18px;
+			}
+			.myDiv2 {
+				height: 420px;
+				width: 650px;
+				border: 1px solid black;
+				margin: 30px auto;
+				padding: 10px;
+			}
+			.myDiv3 {
+				height: 200px;
+				width: 650px;
+				margin: 30px auto;
+				padding: 10px;
+			}
+			h2 {
+				text-align: center;
+			}
+			table,
+			td,
+			th {
+				border: 1px solid #ddd;
+				text-align: left;
+			}
+			table {
+				border-collapse: collapse;
+				width: 100%;
+			}
+			th,
+			td {
+				padding: 15px;
+				text-align: center;
+				font-weight: 600;
+				font-size: 14px;
+				color: #000;
+				height: 10px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="app">
+			<h2>Word: [[perticularWord]]</h2>
+			
+			<div class="myDiv2">
+				<table>
+					<tbody style="text-align: right">
+						<tr v-for="(l,i) in perticularWord">
+							<td v-for="(l2,i2) in perticularWord">
+								<span v-if="i==i2"> </span>
+								<span v-else>[[l2]] </span>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="myDiv2">
+				<table>
+					<tbody style="text-align: right">
+						<tr v-for="(l,i) in perticularWord">
+							<td v-for="(l2,i2) in perticularWord">
+								<span
+									v-if="perticularWord_length_index > i && i+1==i2"
+								>
+								</span>
+								<span
+									v-else-if="i >= perticularWord_length_index && i-perticularWord_length_index ==i2"
+								>
+								</span>
+								<span v-else>[[l2]] </span>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+
+			<div class="myDiv1">[[first_section]]</div>
+			<div class="myDiv1">[[second_section]]</div>
+
+			<div class="myDiv3">
+				<table>
+					<tbody style="text-align: right">
+						<tr>
+							<td v-for="l in suffleWord"></td>
+						</tr>
+						<tr>
+							<td v-for="l in suffleWord">[[l]]</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<script src="./words.js"></script>
+		<script src="./vue.js"></script>
+		<script>
+			function getParameterByName(name, url = window.location.href) {
+				name = name.replace(/[\[\]]/g, "\\$&");
+				var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+					results = regex.exec(url);
+				if (!results) return null;
+				if (!results[2]) return "";
+				return decodeURIComponent(results[2].replace(/\+/g, " "));
+			}
+
+			function similerKindOfWords(word, words) {
+				const firstletter = word.charAt(0);
+				let someLetters =
+					word.charAt(0).toLowerCase() + word.charAt(1) != "'"
+						? word.charAt(1)
+						: word.charAt(2);
+
+				let returnData = "";
+				let j = 0;
+				for (let i = 0; i < words.length; i++) {
+					console.log(words[i])
+					console.log(firstletter)
+					if (words[i].charAt(0) == firstletter || words[i].includes(someLetters)) {
+						returnData += " " + words[i];
+						j++;
+					}
+					if (j === 45) {
+						break;
+					}
+				}
+				return returnData.toLowerCase();
+			}
+
+			function anyKindOfWords(word, wordList) {
+				const newWordList = [
+					...wordList,
+					...wordList,
+					...wordList,
+					...wordList,
+				];
+
+				let returnData = "";
+				let i = 0;
+				for (let i = 0; i < newWordList.length; i = i + 5) {
+					returnData += " " + newWordList[i];
+					i++;
+					if (i === 45) {
+						break;
+					}
+				}
+				return returnData.toLowerCase();
+			}
+
+			const app = Vue.createApp({
+				delimiters: ["[[", "]]"],
+				data() {
+					return {
+						perticularWord: "",
+						suffleWord: "",
+						perticularWord_length_index: 0,
+						first_section: "",
+						second_section: "",
+					};
+				},
+				watch: {
+					words: function () {
+						console.log("changed");
+					},
+				},
+				mounted: function () {
+					const perticularWord = getParameterByName("word");
+					if (perticularWord) {
+						this.perticularWord = perticularWord.toLowerCase();
+						this.perticularWord_length_index =
+							perticularWord.length - 1;
+						this.suffleWord = perticularWord
+							.split("")
+							.sort(function () {
+								return 0.5 - Math.random();
+							})
+							.join("")
+							.substring(0, 6);
+						if (wordList) {
+							this.first_section = anyKindOfWords(
+								perticularWord,
+								wordList
+							);
+							this.second_section = similerKindOfWords(
+								perticularWord,
+								wordList
+							);
+						}
+					}
+				},
+			});
+			app.mount("#app");
+		</script>
+	</body>
+</html>
