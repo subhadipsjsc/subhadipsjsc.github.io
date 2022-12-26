@@ -108,6 +108,7 @@
 			</div>
 		</div>
 		<script src="./words.js"></script>
+		<script src="./similarWordList.js"></script>
 		<script src="./vue.js"></script>
 		<script>
 			function getParameterByName(name, url = window.location.href) {
@@ -120,26 +121,21 @@
 			}
 
 			function similerKindOfWords(word, words) {
-				const firstletter = word.charAt(0);
-				let someLetters =
-					word.charAt(0).toLowerCase() + word.charAt(1) != "'"
-						? word.charAt(1)
-						: word.charAt(2);
-
+				const WordList =[].concat(... new Array(10).fill([...similarWordList ]));
+				const WordList2 = WordList.slice(0, 45);
+				const newWordList = [...WordList2 ,word ]
+				console.log(newWordList)
+				shuffleArray(newWordList)
 				let returnData = "";
-				let j = 0;
-				for (let i = 0; i < words.length; i++) {
-					console.log(words[i])
-					console.log(firstletter)
-					if (words[i].charAt(0) == firstletter || words[i].includes(someLetters)) {
-						returnData += " " + words[i];
-						j++;
-					}
-					if (j === 45) {
+				let i = 0;
+				for (let i = 0; i < newWordList.length; i = i++) {
+					returnData += " " + newWordList[i];
+					i++;
+					if (i === 45) {
 						break;
 					}
 				}
-				return returnData.toLowerCase();
+				return returnData;
 			}
 
 			function anyKindOfWords(word, wordList) {
@@ -196,9 +192,13 @@
 								perticularWord,
 								wordList
 							);
-							this.second_section = similerKindOfWords(
+						
+						}
+						if(similarWordList && similarWordList[perticularWord]) {
+							console.log(perticularWord[perticularWord])
+							this.second_section = similarKindOfWords(
 								perticularWord,
-								wordList
+								similarWordList[perticularWord]
 							);
 						}
 					}
