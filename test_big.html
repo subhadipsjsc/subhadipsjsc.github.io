@@ -121,19 +121,21 @@
 			}
 
 			function similerKindOfWords(word, words) {
-				const WordList =[].concat(... new Array(10).fill([...similarWordList ]));
-				const WordList2 = WordList.slice(0, 45);
+				const WordList =[].concat(... new Array(4).fill([...similarWordList ]));
+				shuffleArray(WordList)
+				const WordList2 = WordList.slice(0, 7);
 				const newWordList = [...WordList2 ,word ]
 				console.log(newWordList)
 				shuffleArray(newWordList)
 				let returnData = "";
-				let i = 0;
-				for (let i = 0; i < newWordList.length; i = i++) {
-					returnData += " " + newWordList[i];
-					i++;
-					if (i === 45) {
-						break;
+				for (let j=0; i< 5; j++){
+					let tempString = ""
+					for (let i = 0; i < 8; i++) {
+						tempString += " " + newWordList[i];
+						i++;
 					}
+					console.log(tempString)
+					returnData += tempString+"\n"
 				}
 				return returnData;
 			}

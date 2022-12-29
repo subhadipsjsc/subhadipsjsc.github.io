@@ -51,8 +51,8 @@
 	<body>
 		<div id="app">
 			<h2>Word: [[perticularWord]]</h2>
-			<div class="myDiv1">[[first_section]]</div>
-			<div class="myDiv1">[[second_section]]</div>
+			<div class="myDiv1" style="white-space: pre-line">[[first_section]]</div>
+			<div class="myDiv1" style="white-space: pre-line">[[second_section]]</div>
 			<div class="myDiv2">
 				<table>
 					<tbody style="text-align: right">
@@ -120,39 +120,61 @@
 			}
 
 			function similarKindOfWords(word, similarWordList) {
-				const WordList =[].concat(... new Array(10).fill([...similarWordList ]));
-				const WordList2 = WordList.slice(0, 45);
+				let loopLength = 8
+				if (word.length < 3){
+					loopLength = 23
+				} else if (word.length == 3){
+					loopLength = 17
+				} else if (word.length == 4){
+					loopLength = 14
+				} else if (word.length == 5){
+					loopLength = 11
+				} else if (word.length == 6){
+					loopLength = 10
+				}
+				const WordList =[].concat(... new Array(4).fill([...similarWordList ]));
+				shuffleArray(WordList)
+				const WordList2 = WordList.slice(0, loopLength);
 				const newWordList = [...WordList2 ,word ]
 				console.log(newWordList)
-				shuffleArray(newWordList)
 				let returnData = "";
-				let i = 0;
-				for (let i = 0; i < newWordList.length; i = i++) {
-					returnData += " " + newWordList[i];
-					i++;
-					if (i === 45) {
-						break;
+				for (let j=0; j< 10; j++){
+					let tempString = ""
+					shuffleArray(newWordList)
+					for (let i = 0; i < loopLength+1 ; i++) {
+						tempString += " " + newWordList[i];
 					}
+					console.log(tempString)
+					returnData += tempString+" \n"
 				}
+				console.log(returnData)
 				return returnData;
 			}
 
-			function anyKindOfWords(word, wordList) {
-				const newWordList = [
-					...wordList,
-					...wordList,
-					...wordList,
-					...wordList,
-				];
+			function anyKindOfWords(word, wrdlst) {
+				
+				let loopLength = 16
+				
+				const wrdlst2 = [...wrdlst]
+				const index = wrdlst2.indexOf(word)
+				if (index > -1) { 
+					wrdlst2.splice(index, 1); 
+				}
 
+				const WordList =[].concat(... new Array(4).fill([...wrdlst2 ]));
+				shuffleArray(WordList)
+				const WordList2 = WordList.slice(0, loopLength);
+				const newWordList = [...WordList2 ,word ]
+				console.log(newWordList)
 				let returnData = "";
-				let i = 0;
-				for (let i = 0; i < newWordList.length; i = i + 5) {
-					returnData += " " + newWordList[i];
-					i++;
-					if (i === 45) {
-						break;
+				for (let j=0; j< 10; j++){
+					let tempString = ""
+					shuffleArray(newWordList)
+					for (let i = 0; i < loopLength+1 ; i++) {
+						tempString += " " + newWordList[i];
 					}
+					// console.log(tempString)
+					returnData += tempString+" \n"
 				}
 				return returnData;
 			}
@@ -199,6 +221,9 @@
 								perticularWord,
 								similarWordList[perticularWord]
 							);
+						}
+						else{
+							console.log("no similar kind of word available")
 						}
 					}
 				},
