@@ -72,7 +72,6 @@ const wordList = [
 	"they",
 	"what",
 	"one",
-	"come",
 	"got",
 	"here",
 	"on",
