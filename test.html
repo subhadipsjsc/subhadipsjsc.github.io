@@ -124,13 +124,13 @@
 				if (word.length < 3){
 					loopLength = 23
 				} else if (word.length == 3){
-					loopLength = 16
+					loopLength = 14
 				} else if (word.length == 4){
-					loopLength = 13
-				} else if (word.length == 5){
-					loopLength = 11
-				} else if (word.length == 6){
 					loopLength = 10
+				} else if (word.length == 5){
+					loopLength = 9
+				} else if (word.length == 6){
+					loopLength = 8
 				}
 				const WordList =[].concat(... new Array(4).fill([...similarWordList ]));
 				shuffleArray(WordList)
@@ -153,7 +153,7 @@
 
 			function anyKindOfWords(word, wrdlst) {
 				
-				let loopLength = 16
+				let loopLength = 12
 				
 				const wrdlst2 = [...wrdlst]
 				const index = wrdlst2.indexOf(word)
